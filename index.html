@@ -22,6 +22,13 @@
             link.href = randomPair.icon;
             document.head.appendChild(link);
         });
+        function detectKeyPress(event) {
+            console.log("Tecla presionada: " + event.key);
+        }
+        window.onload = function() {
+            const iframe = document.getElementById('myIframe');
+            iframe.contentWindow.addEventListener('keydown', detectKeyPress);
+        }
     </script>
   <style>
     body {
@@ -36,6 +43,6 @@
   </style>
 </head>
 <body>
-    <iframe src="https://risb.netlify.app"></iframe>
+    <iframe id="myIframe" src="https://risb.netlify.app"></iframe>
 </body>
 </html>
