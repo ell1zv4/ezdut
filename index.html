@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pairs = [
+                { title: "Gmail", icon: "assets/gmail.png" },
+                { title: "Sign In | DocHub", icon: "assets/dochub.png" },
+                { title: "Inicia sesión: Cuentas de Google", icon: "assets/google-favicon.png" },
+                { title: "Matemáticas 2024-2025", icon: "assets/classroom.png" },
+                { title: "SM Educamos - Salesianos Barakaldo", icon: "assets/educamos.png" },
+                { title: "Inicio", icon: "assets/classroom.png" },
+                { title: "Google Drive", icon: "assets/drive.png" }
+            ];
+            const randomPair = pairs[Math.floor(Math.random() * pairs.length)];
+            document.title = randomPair.title;
+            const link = document.createElement('link');
+            link.rel = 'icon';
+            link.type = 'image/png';
+            link.href = randomPair.icon;
+            document.head.appendChild(link);
+        });
+    </script>
+  <style>
+    body {
+    margin: 0;
+    }
+    iframe {
+        display: block;       
+        background: #000;
+        border: none;         
+        height: 100vh;        
+        width: 100vw;
+    }
+  </style>
+</head>
+<body>
+    <ifame src="https://risb.netlify.app"></iframe>
+</body>
+</html>
