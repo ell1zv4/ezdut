@@ -32,7 +32,7 @@
             iframe.contentWindow.addEventListener('keydown', detectKeyPress);
 
             try {
-                const response = await fetch('/netlify/functions/get-a');
+                const response = await fetch('/.netlify/functions/get-a');
                 if (!response.ok) throw new Error('Error al cargar la URL');
                 const data = await response.json();
                 iframe.src = data.url;
