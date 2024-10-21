@@ -27,26 +27,18 @@
             console.log("Tecla presionada: " + event.key);
         }
 
-        window.onload = async function() {
+        window.onload = function() {
             const iframe = document.getElementById('myIframe');
 
-            try {
-                const response = await fetch('/.netlify/functions/get-a');
-                if (!response.ok) throw new Error('Error al cargar la URL');
-                const data = await response.json();
-                
-                iframe.src = data.url;
+            iframe.onload = function() {
+                try {
+                    iframe.contentWindow.addEventListener('keydown', detectKeyPress);
+                } catch (error) {
+                    console.error('No se pudo detectar la tecla', error);
+                }
+            };
 
-                iframe.onload = function() {
-                    try {
-                        iframe.contentWindow.addEventListener('keydown', detectKeyPress);
-                    } catch (error) {
-                        console.error(error);
-                    }
-                };
-            } catch (error) {
-                console.error('Error al obtener la URL:', error);
-            }
+            iframe.src = '/.netlify/functions/proxy'; // Llama a la función del proxy
         };
     </script>
     <style>
