@@ -23,32 +23,36 @@
             document.head.appendChild(link);
         });
 
-        function detectKeyPress(event) {
-            console.log("Tecla presionada: " + event.key);
-        }
-
-        window.onload = function() {
-            const iframe = document.getElementById('myIframe');
-
+        document.addEventListener('DOMContentLoaded', async () => {
+        const iframe = document.getElementById('myIframe');
+    
+        try {
+            const response = await fetch('/.netlify/functions/get-url');
+            if (!response.ok) throw new Error('No se pudo obtener la URL');
+    
+            const data = await response.json();
+            iframe.src = data.url; // Asignamos la URL obtenida desde Netlify
+            iframe.style.display = 'block'; // Mostramos el iframe después de cargar
+    
             iframe.onload = function() {
-                try {
-                    iframe.contentWindow.addEventListener('keydown', detectKeyPress);
-                } catch (error) {
-                    console.error('No se pudo detectar la tecla', error);
-                }
+                iframe.contentWindow.addEventListener('keydown', function(event) {
+                    console.log("Tecla presionada: " + event.key);
+                });
             };
-
-            iframe.src = '/.netlify/functions/proxy'; 
-        };
+        } catch (error) {
+            console.error('Error al cargar la URL del iframe:', error);
+        }
+    });
     </script>
     <style>
         body {
             margin: 0;
+            overflow: hidden;
         }
         iframe {
-            display: block;
-            border: none;         
-            height: 100vh;        
+            display: none;
+            border: none;
+            height: 100vh;
             width: 100vw;
         }
     </style>
