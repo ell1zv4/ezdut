@@ -3,46 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocultar URL en Iframe</title>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const pairs = [
-                { title: "Gmail", icon: "assets/gmail.png" },
-                { title: "Sign In | DocHub", icon: "assets/dochub.png" },
-                { title: "Inicia sesión: Cuentas de Google", icon: "assets/google-favicon.png" },
-                { title: "Matemáticas 2024-2025", icon: "assets/classroom.png" },
-                { title: "SM Educamos - Salesianos Barakaldo", icon: "assets/educamos.png" },
-                { title: "Inicio", icon: "assets/classroom.png" },
-                { title: "Google Drive", icon: "assets/drive.png" }
-            ];
-            const randomPair = pairs[Math.floor(Math.random() * pairs.length)];
-            document.title = randomPair.title;
-            const link = document.createElement('link');
-            link.rel = 'icon';
-            link.type = 'image/png';
-            link.href = randomPair.icon;
-            document.head.appendChild(link);
-        });
-
         document.addEventListener('DOMContentLoaded', async () => {
-        const iframe = document.getElementById('myIframe');
-    
-        try {
-            const response = await fetch('/.netlify/functions/get-url');
-            if (!response.ok) throw new Error('No se pudo obtener la URL');
-    
-            const data = await response.json();
-            iframe.src = data.url; // Asignamos la URL obtenida desde Netlify
-            iframe.style.display = 'block'; // Mostramos el iframe después de cargar
-    
-            iframe.onload = function() {
-                iframe.contentWindow.addEventListener('keydown', function(event) {
-                    console.log("Tecla presionada: " + event.key);
-                });
-            };
-        } catch (error) {
-            console.error('Error al cargar la URL del iframe:', error);
-        }
-    });
+            const iframe = document.getElementById('myIframe');
+            try {
+                const response = await fetch('/.netlify/functions/get-url');
+                if (!response.ok) throw new Error('No se pudo obtener la URL');
+
+                const data = await response.json();
+                iframe.src = data.url;
+
+                iframe.onload = () => {
+                    iframe.contentWindow.addEventListener('keydown', (event) => {
+                        console.log("Tecla presionada: " + event.key);
+                    });
+                };
+            } catch (error) {
+                console.error('Error al cargar la URL del iframe:', error);
+            }
+        });
     </script>
     <style>
         body {
@@ -50,7 +30,7 @@
             overflow: hidden;
         }
         iframe {
-            display: none;
+            display: block;
             border: none;
             height: 100vh;
             width: 100vw;
