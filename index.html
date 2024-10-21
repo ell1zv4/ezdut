@@ -29,13 +29,18 @@
 
         window.onload = async function() {
             const iframe = document.getElementById('myIframe');
-            iframe.contentWindow.addEventListener('keydown', detectKeyPress);
 
             try {
                 const response = await fetch('/.netlify/functions/get-a');
                 if (!response.ok) throw new Error('Error al cargar la URL');
                 const data = await response.json();
+                
+                const iframeDocument = iframe.contentWindow || iframe.contentDocument;
                 iframe.src = data.url;
+
+                iframe.addEventListener('load', () => {
+                    iframe.contentWindow.addEventListener('keydown', detectKeyPress);
+                });
             } catch (error) {
                 console.error('Error al obtener la URL:', error);
             }
